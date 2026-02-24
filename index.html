@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBMK-1000 Reactor Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>RBMK-1000 REACTOR CONTROL</h1>
+
+        <div class="main-panel">
+            <div class="reactor-view">
+                <div class="reactor-vessel">
+                    <div class="reactor-core">
+                        <div class="control-rods" id="controlRods">
+                            <div class="rod"></div>
+                            <div class="rod"></div>
+                            <div class="rod"></div>
+                            <div class="rod"></div>
+                            <div class="rod"></div>
+                        </div>
+                        <div class="core-glow" id="coreGlow"></div>
+                    </div>
+                </div>
+                <div class="rod-controls">
+                    <button id="rodsUp" class="rod-btn up">&#9650; RAISE RODS</button>
+                    <div class="rod-position">
+                        <span>ROD POSITION</span>
+                        <span id="rodPosValue">50%</span>
+                    </div>
+                    <button id="rodsDown" class="rod-btn down">&#9660; LOWER RODS</button>
+                </div>
+            </div>
+
+            <div class="gauges-panel">
+                <div class="gauge">
+                    <label>POWER OUTPUT</label>
+                    <div class="gauge-bar">
+                        <div class="gauge-fill power" id="powerBar"></div>
+                    </div>
+                    <span class="gauge-value" id="powerValue">25.0%</span>
+                </div>
+
+                <div class="gauge">
+                    <label>CORE TEMPERATURE</label>
+                    <div class="gauge-bar">
+                        <div class="gauge-fill temp" id="tempBar"></div>
+                    </div>
+                    <span class="gauge-value" id="tempValue">350&#176;C</span>
+                </div>
+
+                <div class="gauge">
+                    <label>POWER VELOCITY</label>
+                    <div class="gauge-bar velocity-bar">
+                        <div class="gauge-center-line"></div>
+                        <div class="gauge-fill velocity" id="velocityBar"></div>
+                    </div>
+                    <span class="gauge-value" id="velocityValue">+0.0/s</span>
+                </div>
+
+                <div class="status-display" id="statusDisplay">
+                    REACTOR NOMINAL
+                </div>
+
+                <div class="scores">
+                    <div class="score-item">
+                        <span>POINTS</span>
+                        <span id="points">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span>TIME</span>
+                        <span id="time">0.0s</span>
+                    </div>
+                    <div class="score-item">
+                        <span>HIGH SCORE</span>
+                        <span id="highScore">0</span>
+                    </div>
+                </div>
+
+                <button id="az5Button" class="az5-btn">
+                    AZ-5<br>
+                    <small>EMERGENCY SCRAM</small>
+                </button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <p><strong>CONTROLS:</strong> W/&#8593; Raise Rods | S/&#8595; Lower Rods | SPACE AZ-5 Shutdown</p>
+            <p><strong>GOAL:</strong> Rods control acceleration. Balance power velocity to stay in the safe zone. Press AZ-5 to bank points!</p>
+        </div>
+    </div>
+
+    <div class="game-over-overlay" id="gameOverOverlay">
+        <div class="game-over-modal">
+            <h2 id="gameOverTitle">GAME OVER</h2>
+            <p id="gameOverMessage"></p>
+            <p id="finalScore"></p>
+            <button id="restartBtn">RESTART REACTOR</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a0f;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px #00ff00;
+    letter-spacing: 6px;
+    flex-shrink: 0;
+}
+
+.main-panel {
+    display: flex;
+    gap: 60px;
+    background: #111;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+    flex: 1;
+    align-items: stretch;
+}
+
+.reactor-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.reactor-vessel {
+    width: 300px;
+    height: 400px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+    border: 3px solid #444;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.reactor-core {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    height: 300px;
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.core-glow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, rgba(0, 150, 255, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+    transition: all 0.3s;
+}
+
+.control-rods {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 20px;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.rod {
+    width: 20px;
+    height: 80%;
+    background: linear-gradient(180deg, #666 0%, #444 50%, #666 100%);
+    border-radius: 3px;
+    transform: translateY(-100%);
+    transition: transform 0.2s ease-out;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.rod-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.rod-btn {
+    width: 200px;
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: 2px solid;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.rod-btn.up {
+    background: #1a3a1a;
+    border-color: #00aa00;
+    color: #00ff00;
+}
+
+.rod-btn.up:hover {
+    background: #2a5a2a;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.rod-btn.down {
+    background: #3a1a1a;
+    border-color: #aa0000;
+    color: #ff4444;
+}
+
+.rod-btn.down:hover {
+    background: #5a2a2a;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+}
+
+.rod-btn:active {
+    transform: scale(0.95);
+}
+
+.rod-position {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+
+.rod-position span:last-child {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00ffff;
+}
+
+.gauges-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.gauge {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.gauge label {
+    font-size: 0.8rem;
+    color: #888;
+    letter-spacing: 1px;
+}
+
+.gauge-bar {
+    height: 40px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.gauge-fill {
+    height: 100%;
+    width: 25%;
+    transition: width 0.1s, background 0.3s;
+}
+
+.gauge-fill.power {
+    background: linear-gradient(90deg, #004400, #00ff00);
+}
+
+.gauge-fill.temp {
+    background: linear-gradient(90deg, #0066ff, #00ffff);
+}
+
+.gauge-fill.temp.warning {
+    background: linear-gradient(90deg, #ff8800, #ffaa00);
+}
+
+.gauge-fill.temp.danger {
+    background: linear-gradient(90deg, #ff0000, #ff4444);
+}
+
+.gauge-bar.velocity-bar {
+    position: relative;
+}
+
+.gauge-center-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #666;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.gauge-fill.velocity {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: width 0.1s, left 0.1s, background 0.3s;
+}
+
+.gauge-fill.velocity.positive {
+    background: linear-gradient(90deg, #00aa00, #00ff00);
+}
+
+.gauge-fill.velocity.negative {
+    background: linear-gradient(90deg, #ff4444, #aa0000);
+}
+
+.gauge-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: right;
+}
+
+.status-display {
+    padding: 25px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: #0a1a0a;
+    border: 2px solid #00aa00;
+    border-radius: 5px;
+    color: #00ff00;
+    letter-spacing: 2px;
+}
+
+.status-display.warning {
+    background: #1a1a0a;
+    border-color: #aaaa00;
+    color: #ffff00;
+    animation: pulse 1s infinite;
+}
+
+.status-display.danger {
+    background: #1a0a0a;
+    border-color: #aa0000;
+    color: #ff0000;
+    animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.score-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+.score-item span:first-child {
+    font-size: 0.7rem;
+    color: #666;
+}
+
+.score-item span:last-child {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffff00;
+}
+
+.az5-btn {
+    width: 100%;
+    padding: 30px;
+    font-family: 'Courier New', monospace;
+    font-size: 2rem;
+    font-weight: bold;
+    background: linear-gradient(180deg, #aa0000 0%, #660000 100%);
+    border: 3px solid #ff0000;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    text-shadow: 0 0 10px #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    transition: all 0.1s;
+    margin-top: auto;
+}
+
+.az5-btn:hover {
+    background: linear-gradient(180deg, #cc0000 0%, #880000 100%);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+}
+
+.az5-btn:active {
+    transform: scale(0.95);
+}
+
+.az5-btn small {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.instructions {
+    margin-top: 20px;
+    padding: 15px;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    color: #888;
+    text-align: center;
+}
+
+.instructions p {
+    margin: 5px 0;
+}
+
+.game-over-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.game-over-overlay.active {
+    display: flex;
+}
+
+.game-over-modal {
+    background: #111;
+    border: 3px solid #333;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    max-width: 500px;
+}
+
+.game-over-modal h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.game-over-modal h2.success {
+    color: #00ff00;
+    text-shadow: 0 0 20px #00ff00;
+}
+
+.game-over-modal h2.failure {
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000;
+}
+
+.game-over-modal p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #aaa;
+}
+
+#finalScore {
+    font-size: 2rem;
+    color: #ffff00;
+    font-weight: bold;
+}
+
+#restartBtn {
+    margin-top: 30px;
+    padding: 15px 40px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: #1a3a1a;
+    border: 2px solid #00aa00;
+    border-radius: 5px;
+    color: #00ff00;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#restartBtn:hover {
+    background: #2a5a2a;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
